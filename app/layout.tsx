@@ -12,7 +12,7 @@ const inter = Karla({ subsets: ['latin'] });
 const Layout = ({ children }: Props) => {
   return (
     <html lang='en'>
-      <body className={inter.className + " bg-white bg-gradient-to-tr from-green-900/35 to-white bg-opacity-10"}>
+      <body className={inter.className + " bg-white bg-gradient-to-tr from-green-900/35 to-white bg-opacity-10 relative"}>
         <Header />
         { children }
       </body>
