@@ -6,7 +6,7 @@ import { logoutUser } from "@/lib/auth";
 import { useParams } from 'next/navigation'
 import pb from '@/lib/pocketbase';
 
-const UserDashboard = ({ params }: { params: { id: string } }) => {
+const UserDashboard = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const router = useRouter();
     const { id } = useParams<{ id: string }>();

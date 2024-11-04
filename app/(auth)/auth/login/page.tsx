@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loginUser } from '@/lib/auth';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/components/ui/button';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -23,21 +25,21 @@ export default function LoginPage() {
     <div>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
+        <Input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <Button type="submit">Login</Button>
       </form>
       {error && <p>{error}</p>}
     </div>
