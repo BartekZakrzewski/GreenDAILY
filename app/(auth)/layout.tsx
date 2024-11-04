@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Karla } from 'next/font/google';
-import { Header } from '../components/index'
-import './global.css';
+import { Header } from '@/components/index'
+import '@/app/global.css';
 
 interface Props {
   children: ReactNode;

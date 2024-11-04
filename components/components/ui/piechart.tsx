@@ -6,13 +6,13 @@ import { Label, Pie, PieChart } from "recharts"
 import {
   Card,
   CardContent,
-} from "@/components/ui/card"
+} from "./card"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "./chart"
 
 export const description = "A donut chart with text"
 
