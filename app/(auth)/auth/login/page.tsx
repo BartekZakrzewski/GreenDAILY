@@ -22,26 +22,30 @@ export default function LoginPage() {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <Button type="submit">Login</Button>
-      </form>
-      {error && <p>{error}</p>}
+    <div className='min-h-svh flex items-center justify-center'>
+      <div className="flex flex-col items-center bg-slate-700 justify-center p-10 gap-4 rounded-xl" style={{
+      backgroundColor: "rgba(20, 83, 45, .75)"
+      }}>
+        <h1 className="font-extrabold text-2xl underline">Log In</h1>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <Button type="submit">Login</Button>
+        </form>
+        {error && <p>{error}</p>}
+      </div>
     </div>
   );
 }

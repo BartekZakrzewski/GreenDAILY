@@ -1,38 +1,42 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Label, Pie, PieChart } from "recharts"
+import * as React from "react";
+import { Label, Pie, PieChart } from "recharts";
 
-import {
-  Card,
-  CardContent,
-} from "./card"
+import { Card, CardContent } from "./card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "./chart"
+} from "./chart";
 
-export const description = "A donut chart with text"
-
-const chartData = [
-  { EcoScore: "Score to get", Score: 10, fill: "#ffffff00" },
-  { EcoScore: "Score", Score: 90, fill: "rgb(20 83 45)" },
-]
+export const description = "A donut chart with text";
 
 const chartConfig = {
-    chrome: {
-        label: "Score to get",
-        color: "#ffffff00",
-    },
-    safari: {
-        label: "Score",
-        color: "rgb(20 83 45)",
-    },
-} satisfies ChartConfig
+  chrome: {
+    label: "Score to get",
+    color: "#ffffff30",
+  },
+  safari: {
+    label: "Score",
+    color: "rgba(20,83,45,.5)",
+  },
+} satisfies ChartConfig;
 
-export default function EcoScore() {
+export default function EcoScore({
+  userEcoScore = 90,
+}: {
+  userEcoScore: number;
+}) {
+  const chartData = [
+    {
+      EcoScore: "Score to get",
+      Score: 100 - userEcoScore,
+      fill: "rgba(20,83,45,.5)",
+    },
+    { EcoScore: "Score", Score: userEcoScore, fill: "rgb(20 83 45)" },
+  ];
 
   return (
     <Card className="flex flex-col w-full">
@@ -75,10 +79,10 @@ export default function EcoScore() {
                           y={(viewBox.cy || 0) + 24}
                           className="text-slate-900 text-base"
                         >
-                          90%
+                          {`${userEcoScore}%`}
                         </tspan>
                       </text>
-                    )
+                    );
                   }
                 }}
               />
@@ -87,5 +91,5 @@ export default function EcoScore() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
