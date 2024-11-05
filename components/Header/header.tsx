@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import pb from "@/lib/pocketbase";
 import { useRouter } from "next/navigation";
 import { logoutUser } from "@/lib/auth";
+import { Button, buttonVariants } from "@/components/components/ui/button";
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,12 +39,12 @@ const Header = () => {
       </Link>
       <div className={`${isAuthenticated ? 'hidden' : 'flex items-center justify-center gap-2 sm:gap-0 sm:grid sm:grid-cols-2 sm:items-center sm:px-2 text-sm sm:text-base text-nowrap'}`}>
         <Link href="/auth/login">Log in</Link>
-        <Link href="/auth/signup" className="bg-green-900 py-3 px-5 items-center rounded-md text-white">Sign up</Link>
+        <Link className={`${buttonVariants({ variant: "_default"})}`} href="/auth/signup" >Sign up</Link>
       </div>
-      <div className={`${!isAuthenticated ? 'hidden' : 'flex items-center justify-center gap-2 sm:gap-0 sm:grid sm:grid-cols-2 sm:items-center sm:px-2 text-sm sm:text-base text-nowrap'}`}>
+      <div className={`${!isAuthenticated ? 'hidden' : 'flex items-center justify-center gap-2 sm:grid sm:grid-cols-2 sm:items-center sm:px-2 text-sm sm:text-base text-nowrap'}`}>
         <Link href={`/dashboard/${currentUser ? currentUser.id : ''}`}>Dashboard</Link>
-        <form onSubmit={handleLogout} className="bg-green-900 py-3 px-5 items-center rounded-md text-white">
-          <button type="submit">Log out</button>
+        <form onSubmit={handleLogout} className="items-center rounded-md text-white">
+          <Button className="w-full h-full bg-green-900" type="submit">Log out</Button>
         </form>
       </div>
     </header>

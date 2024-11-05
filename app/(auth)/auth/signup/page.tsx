@@ -30,7 +30,7 @@ export default function SignupPage() {
     } else {
       setPasswordError(null);
     }
-  }, [passwordConfirm]);
+  }, [passwordConfirm, password]);
 
   return (
     <div className="min-h-svh flex items-center justify-center">

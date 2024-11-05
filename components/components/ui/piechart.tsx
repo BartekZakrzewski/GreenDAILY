@@ -14,18 +14,18 @@ import {
 export const description = "A donut chart with text";
 
 const chartConfig = {
-  chrome: {
+  ScoreToGet: {
     label: "Score to get",
     color: "#ffffff30",
   },
-  safari: {
+  Score: {
     label: "Score",
     color: "rgba(20,83,45,.5)",
   },
 } satisfies ChartConfig;
 
 export default function EcoScore({
-  userEcoScore = 90,
+  userEcoScore = 0,
 }: {
   userEcoScore: number;
 }) {
