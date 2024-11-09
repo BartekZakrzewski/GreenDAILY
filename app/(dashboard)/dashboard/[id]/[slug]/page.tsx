@@ -27,7 +27,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/components/ui/card";
-import { updateEcoScore } from "@/lib/auth";
+import { updateEcoScore, getEcoScore } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 
 const Questions = [
@@ -220,28 +220,19 @@ const EcoScoreEval = () => {
         if (_user && _user.id == id) {
             setUser(_user);
             const fetchEcoScore = async () => {
-                try {
-                    const records = await pb
-                        .collection("GetEcoScore")
-                        .getFullList()
-                        .then((res) =>
-                            res.filter((record) => record.user_id == _user.id),
-                        );
-                    setUserEcoScore(records[0]);
-                    if (records[0].id == slug) {
-                        setIsAuthenticated(true);
-                    } else {
-                        setIsAuthenticated(false);
-                    }
-                } catch (err) {
-                    console.log(err.originalError);
+                const record = await getEcoScore(_user);
+                setUserEcoScore(record);
+                if(record.id == slug){
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
                 }
-            };
+            }
             fetchEcoScore();
         } else {
             setIsAuthenticated(false);
         }
-    }, [id, slug]);
+    }, [id, slug, userEcoScore]);
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -273,13 +264,17 @@ const EcoScoreEval = () => {
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         const score = _calcScore(values);
-        console.log(`Raw Score: ${score.rawScore}`);
-        console.log(`Percentage Score: ${score.percentageScore}%`);
-
         if (userEcoScore?.id) {
             try {
-                await updateEcoScore(userEcoScore.id, score.percentageScore);
-                router.refresh();
+                const record = await updateEcoScore(userEcoScore.id, score.percentageScore);
+                setUserEcoScore(record);
+                if(record.id == slug){
+                    setIsAuthenticated(true);
+                    router.push(`/dashboard/${id}`);
+                } else {
+                    setIsAuthenticated(false);
+                }
+
             } catch (err) {
                 console.error("Failed to update eco score:", err);
             }
@@ -327,7 +322,7 @@ const EcoScoreEval = () => {
                         <Form {...form}>
                             <form
                                 onSubmit={form.handleSubmit(onSubmit)}
-                                className="space-y-"
+                                className="space-y-8"
                             >
                                 {Questions.map((q, index) => (
                                     <FormField
