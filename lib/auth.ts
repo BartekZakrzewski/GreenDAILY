@@ -13,7 +13,7 @@ export const loginUser = async (email, password) => {
 
 export const createEcoScore = async (_id) => {
     try {
-        const EcoScore = await pb.collection("ecoScores").create({
+        const EcoScore = await pb.collection("EcoScores").create({
             ecoscore: 0,
             user_id: _id,
         });
@@ -25,8 +25,8 @@ export const createEcoScore = async (_id) => {
 
 export const updateEcoScore = async (_ecoscore_id, _ecoscore) => {
     try {
-        const EcoScore = await pb.collection('EcoScores').update(_ecoscore_id, {
-            ecoscore: _ecoscore
+        const EcoScore = await pb.collection("EcoScores").update(_ecoscore_id, {
+            ecoscore: _ecoscore,
         });
         return EcoScore;
     } catch (err) {

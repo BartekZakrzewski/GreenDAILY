@@ -30,7 +30,7 @@ const App = () => {
           <EcoScore userEcoScore={90} />
           <div className="flex w-full flex-col items-center justify-center">
             <h3 className="text-xl font-extrabold text-slate-900/90">
-              Eco Impact Tracker
+              Eco Impact Journal
             </h3>
             <Calendar />
           </div>
