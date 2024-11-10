@@ -9,7 +9,8 @@ import pb from "@/lib/pocketbase";
 import { createEcoJournal, getEcoJournal, getEcoScore, updateEcoJournal, updateEcoScore } from "@/lib/auth";
 import { Calendar } from "@/components/components/ui/calendar";
 import { Textarea } from "@/components/ui/textarea";
-import { RecordModel } from "pocketbase";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 const UserDashboard = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,6 +19,7 @@ const UserDashboard = () => {
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
     const [ecoJournalContent, setEcoJournalContent] = useState<string>();
     const [ecoJournal, setEcoJournal] = useState<{[key: string]: string}[]>();
+    const { toast } = useToast();
     const { id } = useParams<{ id: string }>();
 
      useEffect(() => {
@@ -33,18 +35,17 @@ const UserDashboard = () => {
             fetchEcoScore();
             const fetchEcoJournal = async () => {
                 const records = await getEcoJournal(_user);
-                console.log(records)
                 setEcoJournal(records);
             }
             fetchEcoJournal();
         } else {
             setIsAuthenticated(false);
         }
-    }, [id, ecoJournalContent]);
+    }, [id]);
 
     useEffect(() => {
-        if(ecoJournal && selectedDate != undefined && ecoJournal.filter((item) => item.date == selectedDate.toLocaleDateString()).length != 0) {
-            setEcoJournalContent(ecoJournal.filter((item) => item.date == selectedDate.toLocaleDateString()).at(0).content);
+        if(ecoJournal && selectedDate != undefined && ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).length != 0) {
+            setEcoJournalContent(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).at(0).content);
         } else {
             setEcoJournalContent("");
         }
@@ -52,15 +53,25 @@ const UserDashboard = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(ecoJournal);
 
         if(ecoJournal && selectedDate != undefined) {
-            if(ecoJournal.filter((item) => item.date == selectedDate.toLocaleDateString()).length != 0) {
-                const record = await updateEcoJournal(ecoJournal.filter((item) => item.date == selectedDate.toLocaleDateString()).at(0).id, ecoJournalContent);
+            if(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).length != 0) {
+                const record = await updateEcoJournal(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).at(0).id, ecoJournalContent);
             } else {
-                const record = await createEcoJournal(ecoJournalContent, selectedDate.toLocaleDateString(), user.id);
+                const record = await createEcoJournal(ecoJournalContent, selectedDate.toISOString().slice(0, 10), user.id);
             }
         }
+
+        toast({
+          title: `${selectedDate.toISOString().slice(0, 10)}`,
+          description: "Your journal has been updated",
+        })
+
+        const fetchEcoJournal = async () => {
+            const records = await getEcoJournal(user);
+            setEcoJournal(records);
+        }
+        fetchEcoJournal();
     }
 
     if (!isAuthenticated) {
@@ -81,16 +92,17 @@ const UserDashboard = () => {
                 </div>
                 <div className="flex flex-col md:flex-row mt-10 justify-center items-center md:px-16 bg-slate-700/30">
                     <Calendar mode="single" className="w-min" selected={selectedDate} onSelect={setSelectedDate} footer={ 
-                        selectedDate ? `Selected: ${selectedDate.toLocaleDateString()}` : "Pick a day."
+                        selectedDate ? `Selected: ${selectedDate.toISOString().slice(0, 10)}` : "Pick a day."
                     } />
                     <div className="w-full h-full">
                         <form onSubmit={handleSubmit} className="flex flex-col space-y-8">
-                            <Textarea value={ecoJournalContent} onChange={(e) => setEcoJournalContent(e.target.value)} placeholder={`Write about you eco habits on ${selectedDate && selectedDate.toLocaleDateString()} here`} />
+                            <Textarea value={ecoJournalContent} onChange={(e) => setEcoJournalContent(e.target.value)} placeholder={`Write about you eco habits on ${selectedDate && selectedDate.toISOString().slice(0, 10)} here`} />
                             <Button type="submit">Update Journal</Button>
                         </form>
                     </div>
                 </div>
             </section>
+            <Toaster />
         </main>
     );
 };
