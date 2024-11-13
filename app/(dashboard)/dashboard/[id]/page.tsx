@@ -44,8 +44,8 @@ const UserDashboard = () => {
     }, [id]);
 
     useEffect(() => {
-        if(ecoJournal && selectedDate != undefined && ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).length != 0) {
-            setEcoJournalContent(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).at(0).content);
+        if(ecoJournal && selectedDate != undefined && ecoJournal.filter((item) => item.date == selectedDate.toString().slice(4, 15)).length != 0) {
+            setEcoJournalContent(ecoJournal.filter((item) => item.date == selectedDate.toString().slice(4, 15)).at(0).content);
         } else {
             setEcoJournalContent("");
         }
@@ -56,7 +56,8 @@ const UserDashboard = () => {
 
         if(ecoJournal && selectedDate != undefined) {
             if(ecoJournal.filter((item) => item.date == selectedDate.toString().slice(4, 15)).length != 0) {
-                const record = await updateEcoJournal(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).at(0).id, ecoJournalContent);
+                console.log(ecoJournal)
+                const record = await updateEcoJournal(ecoJournal.filter((item) => item.date == selectedDate.toString().slice(4, 15)).at(0).id, ecoJournalContent);
             } else {
                 const record = await createEcoJournal(ecoJournalContent, selectedDate.toString().slice(4, 15), user.id);
             }

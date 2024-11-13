@@ -82,7 +82,7 @@ export const updateEcoJournal = async (_id, _content) => {
         })
         return EcoJournal
     } catch (err) {
-        throw new Error(err.messae)
+        throw new Error(err.originalError)
     }
 }
 
