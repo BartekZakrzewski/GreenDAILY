@@ -55,10 +55,10 @@ const UserDashboard = () => {
         e.preventDefault();
 
         if(ecoJournal && selectedDate != undefined) {
-            if(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).length != 0) {
+            if(ecoJournal.filter((item) => item.date == selectedDate.toString().slice(4, 15)).length != 0) {
                 const record = await updateEcoJournal(ecoJournal.filter((item) => item.date == selectedDate.toISOString().slice(0, 10)).at(0).id, ecoJournalContent);
             } else {
-                const record = await createEcoJournal(ecoJournalContent, selectedDate.toISOString().slice(0, 10), user.id);
+                const record = await createEcoJournal(ecoJournalContent, selectedDate.toString().slice(4, 15), user.id);
             }
         }
 
@@ -92,11 +92,11 @@ const UserDashboard = () => {
                 </div>
                 <div className="flex flex-col md:flex-row mt-10 justify-center items-center md:px-16 bg-slate-700/30">
                     <Calendar mode="single" className="w-min" selected={selectedDate} onSelect={setSelectedDate} footer={ 
-                        selectedDate ? `Selected: ${selectedDate.toISOString().slice(0, 10)}` : "Pick a day."
+                        selectedDate ? `Selected: ${selectedDate.toString().slice(4, 15)}` : "Pick a day."
                     } />
                     <div className="w-full h-full">
                         <form onSubmit={handleSubmit} className="flex flex-col space-y-8">
-                            <Textarea value={ecoJournalContent} onChange={(e) => setEcoJournalContent(e.target.value)} placeholder={`Write about you eco habits on ${selectedDate && selectedDate.toISOString().slice(0, 10)} here`} />
+                            <Textarea value={ecoJournalContent} onChange={(e) => setEcoJournalContent(e.target.value)} placeholder={`Write about you eco habits on ${selectedDate && selectedDate.toString().slice(4, 15)} here`} />
                             <Button type="submit">Update Journal</Button>
                         </form>
                     </div>
