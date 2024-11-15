@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createEcoScore, signupUser } from "@/lib/auth";
+import { signupUser } from "@/lib/auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/components/ui/button";
+import pb from '@/lib/pocketbase'
 
 export default function SignupPage() {
   const router = useRouter();
@@ -13,6 +14,12 @@ export default function SignupPage() {
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
+
+  useEffect(() => {
+    if(pb.authStore.isValid) {
+      router.push(`/dashboard/${pb.authStore.model.id}`);
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

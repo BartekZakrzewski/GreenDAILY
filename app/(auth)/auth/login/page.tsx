@@ -1,15 +1,23 @@
 "use client";
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loginUser } from '@/lib/auth';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/components/ui/button';
+import pb from '@/lib/pocketbase';
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if(pb.authStore.isValid) {
+      router.push(`/dashboard/${pb.authStore.model.id}`);
+    }
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

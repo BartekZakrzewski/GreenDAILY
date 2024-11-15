@@ -39,7 +39,7 @@ export default function EcoScore({
   ];
 
   return (
-    <Card className="flex flex-col w-full">
+    <Card className="flex flex-col w-full z-0">
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}

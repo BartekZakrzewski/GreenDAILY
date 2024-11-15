@@ -33,7 +33,7 @@ const Header = () => {
   }
 
   return (
-    <header className="w-full flex flex-wrap justify-between p-2 border-b-2 border-slate-500/10 bg-slate-500/20 sticky">
+    <header className="w-full flex flex-wrap justify-between p-2 border-b-2 border-slate-500/10 bg-slate-500/20 sticky top-0 backdrop-blur-md z-50">
       <Link href="/" className="sm:text-2xl my-auto">
         Green<span className="uppercase text-green-900 font-extrabold">daily</span>
       </Link>
